@@ -1,6 +1,6 @@
-use std::{rc::Rc, cell::RefCell};
-use mlua::{Lua, UserData, UserDataMethods};
 use macroquad::prelude::*;
+use mlua::{Lua, UserData, UserDataMethods};
+use std::{cell::RefCell, rc::Rc};
 
 #[derive(Clone)]
 struct Player {
@@ -85,6 +85,8 @@ async fn main() {
 
     let process = lua.globals().get::<mlua::Function>("process").ok();
 
+    let texture: Texture2D = load_texture("assets/sayori.png").await.unwrap();
+
     loop {
         let dt = get_frame_time();
 
@@ -97,6 +99,12 @@ async fn main() {
         clear_background(DARKGRAY);
         draw_circle(p.x, p.y, p.radius, SKYBLUE);
         draw_text("sout engine v114514", 20.0, 40.0, 30.0, WHITE);
+        draw_texture(
+            &texture,
+            screen_width() / 2.0 - texture.width() / 2.0,
+            screen_height() / 2.0 - texture.width() / 2.0,
+            WHITE,
+        );
 
         next_frame().await;
     }
